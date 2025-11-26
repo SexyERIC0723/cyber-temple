@@ -149,12 +149,11 @@ body {
 /* 挂绳视觉连接 */
 .card-string {
     position: absolute;
-    top: -100vh;
+    top: -30px;
     left: 50%;
     width: 1px;
-    height: 100vh;
-    background: linear-gradient(to top, #d4af37, transparent 20%);
-    opacity: 0.6;
+    height: 30px;
+    background: linear-gradient(to top, rgba(139, 69, 19, 0.8), transparent);
     z-index: -1;
 }
 
