@@ -1,11 +1,11 @@
-# 依赖
+# Dependencies
 node_modules/
 
-# 数据库文件
+# Database
 *.db
 server/wishes.db
 
-# 系统文件
+# OS files
 .DS_Store
 Thumbs.db
 
@@ -15,7 +15,12 @@ Thumbs.db
 *.swp
 *.swo
 
-# 日志
+# Logs
 *.log
 npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
 
