@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>賽博大殿 | 許願靈牆</title>
+    
+    <!-- Favicon 太极图标 -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'temple-red': '#4a0e0e', 
+                        'temple-gold': '#d4af37', 
+                        'paper-bg': '#f5f0e6',
+                    },
+                    fontFamily: {
+                        'serif': ['"Noto Serif SC"', 'serif'],
+                    },
+                    animation: {
+                        'print-slide': 'printSlide 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+                        'swing-slow': 'swing 6s ease-in-out infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                        'glow': 'glow 3s infinite alternate',
+                    },
+                    keyframes: {
+                        printSlide: {
+                            '0%': { transform: 'translateY(-120%)', opacity: '0' },
+                            '10%': { opacity: '1' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        swing: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' }
+                        },
+                        glow: {
+                            'from': { opacity: 0.3 },
+                            'to': { opacity: 0.8 }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/yuan.css">
+</head>
+<body>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span class="nav-logo">☯</span>
+            <span class="nav-title">賽博寺廟</span>
+        </div>
+        <div class="nav-links">
+            <a href="jiaobei.html" class="nav-link">
+                <img src="zhijiao.png" alt="擲筊" class="nav-icon-img">
+                <span class="nav-text">擲筊</span>
+            </a>
+            <a href="qian.html" class="nav-link">
+                <img src="chouqian.png" alt="求籤" class="nav-icon-img">
+                <span class="nav-text">求籤</span>
+            </a>
+            <a href="yuan.html" class="nav-link active">
+                <img src="xuyuan.png" alt="許願" class="nav-icon-img">
+                <span class="nav-text">許願</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- 右上角许愿按钮 -->
+    <button id="wishBtn" onclick="openWishPanel()" class="wish-float-btn hidden" title="寫下心願">
+        <i class="fa-solid fa-feather-pointed"></i>
+        <span>許願</span>
+    </button>
+
+    <!-- 背景层 -->
+    <div id="templeBackground">
+        <!-- 左右立柱 -->
+        <div class="pillar left-0"></div>
+        <div class="pillar right-0"></div>
+        
+        <!-- 远处的光晕 -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <!-- 3条灵索 (挂绳) -->
+        <div class="spirit-rope top-[20%]"></div>
+        <div class="spirit-rope top-[45%]"></div>
+        <div class="spirit-rope top-[70%]"></div>
+
+        <!-- 卡片容器 -->
+        <div id="cardsContainer"></div>
+        
+        <!-- 粒子容器 -->
+        <div id="particles"></div>
+    </div>
+
+
+    <!-- UI层 (输入与打印) -->
+    <div id="uiLayer" class="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/85 backdrop-blur-sm transition-all duration-700">
+        
+        <!-- 输入框 -->
+        <div id="inputBox" class="text-center space-y-6 max-w-md w-full px-4 relative">
+            <!-- 关闭按钮 -->
+            <button onclick="skipToWall()" class="absolute -top-4 -right-2 w-10 h-10 flex items-center justify-center text-temple-gold/60 hover:text-temple-gold hover:bg-temple-gold/10 rounded-full transition-all text-xl" title="直接進入靈牆">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <!-- 装饰框 -->
+            <div class="absolute -inset-1 bg-gradient-to-b from-temple-gold/50 to-transparent rounded-lg blur opacity-20"></div>
+            
+            <h1 class="text-4xl text-temple-gold font-bold tracking-[0.4em] mb-4 drop-shadow-lg font-serif">
+                萬靈許願
+            </h1>
+            <p id="wishCounter" class="text-temple-gold/60 text-sm tracking-widest mb-4">靈牆加載中...</p>
+            
+            <div class="bg-[#1a0505] p-1 border border-temple-gold/30 rounded shadow-2xl relative">
+                <div class="bg-[#0f0202] p-8 rounded border border-white/5">
+                    <textarea id="wishText" class="w-full bg-transparent text-center text-gray-200 p-2 focus:outline-none font-serif text-xl h-28 resize-none placeholder-gray-700 leading-8" placeholder="在此刻，寫下你的願力..."></textarea>
+                    
+                    <button onclick="startPrinting()" class="mt-6 w-full bg-gradient-to-r from-[#8B4513] to-[#A0522D] border border-temple-gold/40 text-temple-gold font-bold py-3 rounded hover:brightness-110 transition flex items-center justify-center gap-2 tracking-widest shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
+                        <i class="fa-solid fa-fire-flame-curved"></i> 焚香 · 掛籤
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 跳过提示 -->
+            <p class="text-gray-500 text-xs mt-2">或點擊右上角 ✕ 直接進入靈牆</p>
+        </div>
+
+        <!-- 打印动画容器 -->
+        <div id="printerContainer" class="hidden absolute top-0 w-full h-full flex flex-col items-center pt-16 pointer-events-none">
+            <!-- 打印机出口 -->
+            <div class="w-80 h-4 bg-black border-b border-temple-gold shadow-[0_0_50px_rgba(212,175,55,0.3)] z-20"></div>
+            
+            <!-- 打印出来的纸 -->
+            <div id="printedPaper" class="relative z-10 w-56 bg-paper-bg p-6 pt-10 shadow-2xl origin-top opacity-0 flex flex-col items-center border-x-2 border-dotted border-gray-300">
+                <!-- 顶部红头 -->
+                <div class="w-full text-center border-b-2 border-red-900 pb-2 mb-4">
+                    <span class="text-red-900 font-bold text-xl tracking-[0.5em]">上吉</span>
+                </div>
+                
+                <div id="printContent" class="font-serif font-bold text-gray-800 text-2xl leading-relaxed vertical-text h-64 overflow-hidden py-2 tracking-widest">
+                    <!-- JS填充 -->
+                </div>
+                
+                <div class="w-full text-right mt-4 opacity-70">
+                    <div class="inline-block border-2 border-red-700 text-red-700 text-xs px-1 py-2 font-bold rotate-[-10deg]">
+                        有求<br>必應
+                    </div>
+                </div>
+            </div>
+
+            <div id="instructionText" class="mt-12 text-temple-gold text-lg tracking-[0.3em] font-bold opacity-0 transition duration-1000 animate-bounce">
+                ▼ 點擊取籤
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 鼠标跟随卡片 -->
+    <div id="cursorFollower" class="hidden wish-card scale-100 shadow-[0_0_30px_rgba(212,175,55,0.5)] border-temple-gold">
+        <div class="card-string"></div>
+        <div class="font-serif font-bold text-gray-900 text-lg vertical-text h-full flex items-center justify-center" id="cursorText"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/yuan.js"></script>
+</body>
+</html>

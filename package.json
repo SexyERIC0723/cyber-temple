@@ -1,0 +1,23 @@
+{
+  "name": "cyber-temple",
+  "version": "1.0.0",
+  "description": "赛博寺庙 - 求签 | 掷筊 | 许愿",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js"
+  },
+  "keywords": [
+    "cyber-temple",
+    "fortune",
+    "wish-wall"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.7"
+  }
+}
+

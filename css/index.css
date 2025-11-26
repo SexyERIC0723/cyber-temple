@@ -1,0 +1,395 @@
+/**
+ * 赛博寺庙 - 首页样式
+ */
+
+/* ========================================
+   背景层
+   ======================================== */
+.bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(ellipse at 50% 0%, rgba(139, 26, 26, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(74, 14, 14, 0.4) 0%, transparent 40%),
+        linear-gradient(180deg, #0a0608 0%, #1a0808 50%, #0a0608 100%);
+}
+
+/* ========================================
+   立柱装饰（覆盖公共样式）
+   ======================================== */
+.pillar::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 80%;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 40px,
+            rgba(212, 175, 55, 0.1) 40px,
+            rgba(212, 175, 55, 0.1) 42px
+        );
+}
+
+/* ========================================
+   香烟效果
+   ======================================== */
+.incense-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 60%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.smoke {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(
+        to top,
+        rgba(255, 200, 100, 0.15) 0%,
+        rgba(200, 150, 80, 0.08) 30%,
+        transparent 100%
+    );
+    filter: blur(20px);
+    animation: smokeWave 8s infinite ease-in-out;
+}
+
+@keyframes smokeWave {
+    0%, 100% { transform: translateX(-50%) skewX(0deg); }
+    25% { transform: translateX(-50%) skewX(5deg); }
+    75% { transform: translateX(-50%) skewX(-5deg); }
+}
+
+/* ========================================
+   粒子效果
+   ======================================== */
+.particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleRise 15s infinite ease-out;
+}
+
+@keyframes particleRise {
+    0% { 
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+    }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.2; }
+    100% { 
+        transform: translateY(-20vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   主内容区
+   ======================================== */
+.main-content {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+/* ========================================
+   山门标题
+   ======================================== */
+.gate-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.temple-name {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: clamp(48px, 12vw, 96px);
+    color: var(--gold);
+    text-shadow: 
+        0 0 30px rgba(212, 175, 55, 0.5),
+        0 0 60px rgba(212, 175, 55, 0.3),
+        4px 4px 0 var(--temple-red-dark);
+    letter-spacing: 20px;
+    margin-bottom: 15px;
+}
+
+.temple-subtitle {
+    font-size: 16px;
+    color: var(--text-light);
+    opacity: 0.6;
+    letter-spacing: 8px;
+}
+
+.deco-line {
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 25px auto;
+    opacity: 0.5;
+}
+
+/* ========================================
+   三殿入口卡片
+   ======================================== */
+.halls-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hall-card {
+    position: relative;
+    width: 240px;
+    padding: 35px 25px;
+    background: rgba(20, 8, 8, 0.9);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+}
+
+.hall-card::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    pointer-events: none;
+}
+
+.hall-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.hall-card:hover::after {
+    left: 100%;
+}
+
+.hall-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--gold);
+    box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(212, 175, 55, 0.2);
+}
+
+.hall-icon {
+    font-size: 52px;
+    margin-bottom: 20px;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+    transition: transform 0.3s;
+}
+
+.hall-card:hover .hall-icon {
+    transform: scale(1.15);
+}
+
+.hall-name {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 32px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    letter-spacing: 5px;
+}
+
+.hall-desc {
+    font-size: 14px;
+    color: var(--text-light);
+    opacity: 0.7;
+    margin-bottom: 15px;
+}
+
+.hall-action {
+    display: inline-block;
+    padding: 8px 20px;
+    background: linear-gradient(180deg, var(--temple-red) 0%, var(--temple-red-dark) 100%);
+    border: 1px solid var(--gold);
+    color: var(--text-light);
+    font-size: 13px;
+    letter-spacing: 3px;
+    transition: all 0.3s;
+}
+
+.hall-card:hover .hall-action {
+    background: linear-gradient(180deg, #a52020 0%, #6a1010 100%);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+/* ========================================
+   底部装饰
+   ======================================== */
+.footer-deco {
+    margin-top: 60px;
+    text-align: center;
+    opacity: 0.5;
+}
+
+.footer-symbol {
+    font-size: 28px;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+
+.footer-text {
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: var(--text-light);
+}
+
+/* ========================================
+   灯笼装饰
+   ======================================== */
+.lantern {
+    position: fixed;
+    top: 60px;
+    width: 50px;
+    height: 80px;
+    z-index: 5;
+    animation: lanternSwing 4s ease-in-out infinite;
+}
+
+.lantern.left { left: 100px; }
+.lantern.right { right: 100px; animation-delay: -1s; }
+
+.lantern-body {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, #ff4422 0%, #cc2200 60%, #8b1a1a 100%);
+    border-radius: 50% / 60%;
+    box-shadow: 
+        0 0 30px rgba(255, 68, 34, 0.5),
+        inset 0 -10px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.lantern-body::before {
+    content: '福';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 24px;
+    color: var(--gold);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+}
+
+.lantern-top {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 12px;
+    background: var(--gold);
+    border-radius: 3px 3px 0 0;
+}
+
+.lantern-string {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    width: 2px;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(139, 69, 19, 0.8), rgba(139, 69, 19, 0.4));
+}
+
+.lantern-tassel {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 25px;
+    background: linear-gradient(to bottom, var(--gold) 0%, #b8860b 100%);
+    clip-path: polygon(20% 0%, 80% 0%, 100% 30%, 70% 100%, 30% 100%, 0% 30%);
+}
+
+@keyframes lanternSwing {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+}
+
+/* ========================================
+   入场动画
+   ======================================== */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.fade-in:nth-child(1) { animation-delay: 0.2s; }
+.fade-in:nth-child(2) { animation-delay: 0.4s; }
+.fade-in:nth-child(3) { animation-delay: 0.6s; }
+
+.header-fade {
+    opacity: 0;
+    animation: fadeIn 1.2s ease forwards;
+}
+
+/* ========================================
+   响应式
+   ======================================== */
+@media (max-width: 800px) {
+    .lantern { display: none; }
+    .hall-card { width: 280px; }
+    .temple-name { letter-spacing: 10px; }
+}
+
+@media (max-width: 500px) {
+    .halls-container { gap: 20px; }
+    .hall-card { 
+        width: calc(100% - 40px);
+        max-width: 300px;
+    }
+}
+

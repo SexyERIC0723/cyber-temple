@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>靈籤 | 賽博寺廟</title>
+    
+    <!-- Favicon 太极图标 -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'temple-red': '#4a0e0e', 
+                        'temple-gold': '#d4af37', 
+                        'paper-bg': '#fcf6e8',
+                    },
+                    fontFamily: {
+                        'serif': ['"Noto Serif SC"', 'serif'],
+                    },
+                    animation: {
+                        'shake-image': 'shakeImage 0.5s ease-in-out infinite',
+                        'glow': 'glow 3s infinite alternate',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        shakeImage: {
+                            '0%': { transform: 'translate(1px, 1px) rotate(0deg)' },
+                            '10%': { transform: 'translate(-1px, -2px) rotate(-1deg)' },
+                            '20%': { transform: 'translate(-3px, 0px) rotate(1deg)' },
+                            '30%': { transform: 'translate(3px, 2px) rotate(0deg)' },
+                            '40%': { transform: 'translate(1px, -1px) rotate(1deg)' },
+                            '50%': { transform: 'translate(-1px, 2px) rotate(-1deg)' },
+                            '60%': { transform: 'translate(-3px, 1px) rotate(0deg)' },
+                            '70%': { transform: 'translate(3px, 1px) rotate(-1deg)' },
+                            '80%': { transform: 'translate(-1px, -1px) rotate(1deg)' },
+                            '90%': { transform: 'translate(1px, 2px) rotate(0deg)' },
+                            '100%': { transform: 'translate(1px, -2px) rotate(-1deg)' }
+                        },
+                        glow: {
+                            'from': { opacity: 0.2 },
+                            'to': { opacity: 0.6 }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/qian.css">
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen text-gray-200">
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span class="nav-logo">☯</span>
+            <span class="nav-title">賽博寺廟</span>
+        </div>
+        <div class="nav-links">
+            <a href="jiaobei.html" class="nav-link">
+                <img src="zhijiao.png" alt="擲筊" class="nav-icon-img">
+                <span class="nav-text">擲筊</span>
+            </a>
+            <a href="qian.html" class="nav-link active">
+                <img src="chouqian.png" alt="求籤" class="nav-icon-img">
+                <span class="nav-text">求籤</span>
+            </a>
+            <a href="yuan.html" class="nav-link">
+                <img src="xuyuan.png" alt="許願" class="nav-icon-img">
+                <span class="nav-text">許願</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- 背景层 -->
+    <div id="temple-bg"></div>
+    <div class="pillar left"></div>
+    <div class="pillar right"></div>
+    
+    <!-- 顶部飞檐装饰 -->
+    <div class="roof-deco flex justify-center">
+        <svg width="100%" height="100%" viewBox="0 0 400 100" preserveAspectRatio="none">
+            <path d="M0,20 Q200,80 400,20" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.5"/>
+            <path d="M0,30 Q200,90 400,30" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/>
+        </svg>
+    </div>
+
+    <!-- 顶部标题 -->
+    <div class="fixed top-6 z-40 text-center">
+        <div class="bg-black/40 backdrop-blur-sm px-6 py-2 rounded-full border border-temple-gold/30">
+            <h1 class="text-2xl text-temple-gold font-bold tracking-[0.5em] font-serif shadow-black drop-shadow-lg">
+                大殿求籤
+            </h1>
+        </div>
+    </div>
+
+    <!-- 核心互动区 -->
+    <div class="bucket-wrapper" id="bucketWrapper">
+        <!-- 飞出来的签 -->
+        <div id="animStick" class="flying-stick">
+            <span id="animStickText">第?籤</span>
+        </div>
+
+        <!-- 籤筒圖片 -->
+        <img src="qiuqian.png" 
+             alt="籤筒" 
+             id="bucketImg"
+             class="bucket-img pointer-events-none select-none">
+    </div>
+
+    <!-- 按钮 -->
+    <div class="relative z-30 mt-12">
+        <button onclick="startShake()" id="shakeBtn"
+            class="group relative overflow-hidden bg-gradient-to-r from-temple-red to-[#5e1212] text-[#fcf6e8] border border-[#a87b32] px-10 py-3 rounded text-lg font-bold tracking-widest shadow-[0_10px_20px_rgba(0,0,0,0.5)] transition hover:-translate-y-1 active:scale-95">
+            <span class="relative z-10">誠心搖籤</span>
+            <div class="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent transform -skew-x-12 group-hover:animate-[shimmer_1s_infinite]"></div>
+        </button>
+        <p class="text-center text-[#a87b32] text-xs mt-4 opacity-70 tracking-widest">
+            默念心事 · 點擊搖動
+        </p>
+    </div>
+
+    <!-- 结果弹窗 -->
+    <div id="resultOverlay" class="fixed inset-0 z-50 modal-bg hidden flex items-center justify-center p-6 opacity-0 transition-opacity duration-500">
+        <div id="fortuneCard" class="fortune-card w-full max-w-sm p-8 text-center transform scale-95 transition-transform duration-500">
+            <!-- 装饰印章 -->
+            <div class="absolute top-6 right-6 w-16 h-16 border-2 border-red-800 rounded opacity-20 flex items-center justify-center rotate-12 pointer-events-none">
+                <span class="text-red-800 font-bold text-xs writing-vertical-rl">有求必應</span>
+            </div>
+
+            <!-- 籤文內容 -->
+            <div class="mb-6">
+                <h2 class="text-temple-red text-sm font-bold tracking-widest mb-1">CYBER TEMPLE</h2>
+                <div class="text-4xl font-bold text-black font-serif my-3" id="resNumber">第 X 籤</div>
+                <div class="inline-block bg-temple-red text-[#fcf6e8] px-3 py-0.5 text-sm rounded mb-2" id="resLevel">上上籤</div>
+                <h3 class="text-2xl font-bold text-[#3d0a0a] mb-2" id="resTitle">標題</h3>
+            </div>
+
+            <div class="border-t border-b border-[#d4af37]/50 py-6 my-4">
+                <p class="text-gray-800 text-lg leading-relaxed font-serif font-bold" id="resText">
+                    籤文內容...
+                </p>
+            </div>
+
+            <button onclick="closeResult()" class="mt-4 text-gray-500 hover:text-temple-red text-sm flex items-center justify-center gap-2 w-full transition">
+                <i class="fa-solid fa-arrow-rotate-left"></i> 收下靈籤
+            </button>
+        </div>
+    </div>
+
+    <!-- 粒子容器 -->
+    <div id="particles"></div>
+
+    <!-- JavaScript -->
+    <script src="js/qian.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>賽博寺廟 | 心誠則靈</title>
+    
+    <!-- Favicon 太极图标 -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/jiaobei.css">
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="ambient-glow"></div>
+    <div class="particles" id="particles"></div>
+    <div class="temple-decor"></div>
+    <div class="lantern-glow left"></div>
+    <div class="lantern-glow right"></div>
+    <div class="incense-smoke"></div>
+    <div class="smoke-container" id="smoke-container"></div>
+    <div id="canvas-container"></div>
+    <div class="noise"></div>
+    <div class="crt-overlay"></div>
+    <div class="flash-overlay" id="flash-overlay"></div>
+    
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span class="nav-logo">☯</span>
+            <span class="nav-title">賽博寺廟</span>
+        </div>
+        <div class="nav-links">
+            <a href="jiaobei.html" class="nav-link active">
+                <img src="zhijiao.png" alt="掷筊" class="nav-icon-img">
+                <span class="nav-text">掷筊</span>
+            </a>
+            <a href="qian.html" class="nav-link">
+                <img src="chouqian.png" alt="求籤" class="nav-icon-img">
+                <span class="nav-text">求籤</span>
+            </a>
+            <a href="yuan.html" class="nav-link">
+                <img src="xuyuan.png" alt="許願" class="nav-icon-img">
+                <span class="nav-text">許願</span>
+            </a>
+        </div>
+    </nav>
+    
+    <button class="audio-toggle" id="audio-toggle" title="音效開關">🔊</button>
+    
+    <div id="ui-layer">
+        <!-- Phase 1: Question -->
+        <div class="temple-frame phase active" id="phase-question">
+            <h1 class="title">擲 筊</h1>
+            <p class="subtitle">· 神明指引 ·</p>
+            <div class="deity-silhouette"></div>
+            <div class="dialog-box">
+                <p class="dialog-text">善信，心中所惑為何？</p>
+            </div>
+            <textarea 
+                class="question-input" 
+                id="question-input" 
+                placeholder="請虔誠地輸入您的問題..."
+                maxlength="200"
+            ></textarea>
+            <button class="btn" id="btn-pray">焚 香 禱 告</button>
+        </div>
+        
+        <!-- Loading: Incense -->
+        <div class="temple-frame loading" id="loading-incense">
+            <h1 class="title">擲 筊</h1>
+            <p class="subtitle">· 神明指引 ·</p>
+            <div class="incense-animation"></div>
+            <p class="loading-text">香煙裊裊，傳達天聽...</p>
+        </div>
+        
+        <!-- Phase 2: Toss Button -->
+        <div class="toss-container hidden" id="phase-toss">
+            <p class="toss-hint">誠心默禱，點擊擲筊</p>
+            <button class="btn" id="btn-toss">擲 筊</button>
+        </div>
+        
+        <!-- Phase 3: Result -->
+        <div class="temple-frame phase hidden" id="phase-result">
+            <h1 class="title">擲 筊</h1>
+            <p class="subtitle">· 神明指引 ·</p>
+            <div class="result-container">
+                <div class="jiaobei-result" id="jiaobei-result"></div>
+                <h2 class="result-title" id="result-title"></h2>
+                <p class="result-description" id="result-description"></p>
+                <div class="fortune-text" id="fortune-text"></div>
+                <button class="btn" id="btn-retry">再 問 一 次</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Map for ES Modules -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://esm.sh/three@0.160.0",
+                "three/addons/": "https://esm.sh/three@0.160.0/examples/jsm/",
+                "cannon-es": "https://esm.sh/cannon-es@0.20.0"
+            }
+        }
+    </script>
+
+    <!-- JavaScript (ES Module) -->
+    <script type="module" src="js/jiaobei.js"></script>
+</body>
+</html>
