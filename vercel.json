@@ -1,6 +1,7 @@
 {
   "version": 2,
-  "framework": null,
+  "buildCommand": "echo 'Static site, no build needed'",
+  "outputDirectory": ".",
   "functions": {
     "api/**/*.js": {
       "runtime": "@vercel/node@3.0.0"
