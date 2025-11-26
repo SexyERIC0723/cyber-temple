@@ -1,5 +1,21 @@
+# 依赖
 node_modules/
-*.log
-.env
+
+# 数据库文件
+*.db
+server/wishes.db
+
+# 系统文件
 .DS_Store
-wishes.db
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 日志
+*.log
+npm-debug.log*
+
