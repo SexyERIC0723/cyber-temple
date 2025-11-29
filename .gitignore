@@ -24,3 +24,11 @@ npm-debug.log*
 .env.local
 .env.*.local
 
+# Hardhat
+cache/
+artifacts/
+typechain-types/
+
+# Build outputs
+dist/
+build/

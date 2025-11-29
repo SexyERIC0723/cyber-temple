@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>賽博寺廟 | 心誠則靈</title>
-    
+
     <!-- Favicon 太极图标 -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Ma+Shan+Zheng&display=swap"
+        rel="stylesheet">
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/jiaobei.css">
 </head>
+
 <body>
     <div class="bg-gradient"></div>
     <div class="ambient-glow"></div>
@@ -30,7 +34,7 @@
     <div class="noise"></div>
     <div class="crt-overlay"></div>
     <div class="flash-overlay" id="flash-overlay"></div>
-    
+
     <!-- 顶部导航栏 -->
     <nav class="top-nav">
         <div class="nav-brand">
@@ -51,10 +55,34 @@
                 <span class="nav-text">許願</span>
             </a>
         </div>
+
+        <div class="nav-actions">
+            <div class="mode-switch-container">
+                <label class="switch">
+                    <input type="checkbox" id="mode-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span class="mode-label" id="mode-label">免費模式</span>
+            </div>
+            <button class="btn-wallet" id="btn-connect">連結錢包</button>
+        </div>
     </nav>
-    
+
+    <div class="wallet-info hidden" id="wallet-info">
+        <div class="info-item">
+            <span class="label">餘額:</span>
+            <span class="value" id="user-balance">0.00</span> BEI
+            <button class="btn-add-token" id="btn-add-token" title="添加到 MetaMask">+</button>
+            <button class="btn-faucet" id="btn-faucet" title="領取測試幣">💰</button>
+        </div>
+        <div class="info-item jackpot">
+            <span class="label">🏆 獎池:</span>
+            <span class="value" id="jackpot-pool">0.00</span> BEI
+        </div>
+    </div>
+
     <button class="audio-toggle" id="audio-toggle" title="音效開關">🔊</button>
-    
+
     <div id="ui-layer">
         <!-- Phase 1: Question -->
         <div class="temple-frame phase active" id="phase-question">
@@ -64,15 +92,10 @@
             <div class="dialog-box">
                 <p class="dialog-text">善信，心中所惑為何？</p>
             </div>
-            <textarea 
-                class="question-input" 
-                id="question-input" 
-                placeholder="請虔誠地輸入您的問題..."
-                maxlength="200"
-            ></textarea>
+            <textarea class="question-input" id="question-input" placeholder="請虔誠地輸入您的問題..." maxlength="200"></textarea>
             <button class="btn" id="btn-pray">焚 香 禱 告</button>
         </div>
-        
+
         <!-- Loading: Incense -->
         <div class="temple-frame loading" id="loading-incense">
             <h1 class="title">擲 筊</h1>
@@ -80,13 +103,13 @@
             <div class="incense-animation"></div>
             <p class="loading-text">香煙裊裊，傳達天聽...</p>
         </div>
-        
+
         <!-- Phase 2: Toss Button -->
         <div class="toss-container hidden" id="phase-toss">
             <p class="toss-hint">誠心默禱，點擊擲筊</p>
             <button class="btn" id="btn-toss">擲 筊</button>
         </div>
-        
+
         <!-- Phase 3: Result -->
         <div class="temple-frame phase hidden" id="phase-result">
             <h1 class="title">擲 筊</h1>
@@ -107,7 +130,8 @@
             "imports": {
                 "three": "https://esm.sh/three@0.160.0",
                 "three/addons/": "https://esm.sh/three@0.160.0/examples/jsm/",
-                "cannon-es": "https://esm.sh/cannon-es@0.20.0"
+                "cannon-es": "https://esm.sh/cannon-es@0.20.0",
+                "ethers": "https://esm.sh/ethers@6.13.2"
             }
         }
     </script>
@@ -115,4 +139,5 @@
     <!-- JavaScript (ES Module) -->
     <script type="module" src="js/jiaobei.js"></script>
 </body>
+
 </html>
